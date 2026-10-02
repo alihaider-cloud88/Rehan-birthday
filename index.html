@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100d2e">
+<title>Happy Birthday Rehan! 🎂</title>
+<style>
+  :root { --pink:#ff5ca8; --purple:#9b7bff; --gold:#ffd76a; --ink:#100d2e; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; min-height:100vh; color:#fff; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background: radial-gradient(ellipse at 20% 10%, #3a1768 0, transparent 38%),
+                radial-gradient(ellipse at 85% 35%, #512052 0, transparent 35%),
+                linear-gradient(145deg,#09091e,#171039 55%,#260d36);
+    overflow-x:hidden;
+  }
+  #stars { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .wrap { position:relative; z-index:1; width:min(100% - 32px, 980px); margin:auto; }
+  header { min-height:95vh; display:grid; place-items:center; text-align:center; padding:70px 0 55px; }
+  .eyebrow { display:inline-flex; gap:9px; align-items:center; padding:9px 16px; border:1px solid #ffffff30; border-radius:99px; background:#ffffff0d; color:#ffe1f1; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; }
+  h1 { font-size:clamp(2.8rem,9vw,6.7rem); line-height:.98; margin:24px 0 18px; letter-spacing:-.055em; text-shadow:0 0 35px #ff5ca84b; }
+  h1 span { display:block; background:linear-gradient(100deg,#fff 10%,#ff9ed0 45%,#c6b8ff 85%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .subtitle { color:#e4ddf6; font-size:clamp(1rem,2.7vw,1.3rem); line-height:1.7; max-width:650px; margin:0 auto 28px; }
+  .hero-cake { font-size:clamp(4rem,12vw,7rem); filter:drop-shadow(0 0 25px #ffbd6955); animation:bob 3s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-12px) rotate(2deg)} }
+  .btn { border:0; cursor:pointer; font-weight:800; font-size:1rem; padding:15px 23px; border-radius:999px; color:#24102f; background:linear-gradient(100deg,#ffd76a,#ff9ecb); box-shadow:0 8px 30px #ff6ca944; transition:transform .2s,box-shadow .2s; }
+  .btn:hover { transform:translateY(-3px) scale(1.02); box-shadow:0 12px 38px #ff6ca966; }
+  .hint { color:#bfb5df; font-size:.85rem; margin-top:15px; }
+  section { padding:45px 0 65px; }
+  .section-title { text-align:center; font-size:clamp(1.8rem,5vw,3rem); margin:0 0 14px; letter-spacing:-.035em; }
+  .section-sub { text-align:center; color:#c8c0e1; margin:0 auto 30px; line-height:1.7; max-width:620px; }
+  .glass { background:linear-gradient(135deg,#ffffff12,#ffffff06); border:1px solid #ffffff20; border-radius:26px; padding:clamp(22px,5vw,42px); box-shadow:0 18px 70px #00000020; backdrop-filter:blur(12px); }
+  .letter { font-size:1.08rem; line-height:1.9; color:#f1eafa; }
+  .letter strong { color:#ffd7e9; }
+  .signature { color:#ffb5d9; font-weight:800; margin-top:20px; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:26px; }
+  .card { padding:24px 16px; text-align:center; background:#ffffff0b; border:1px solid #ffffff18; border-radius:20px; }
+  .card .emoji { font-size:2.2rem; margin-bottom:10px; }
+  .card h3 { margin:5px 0 8px; }
+  .card p { color:#c9c1df; line-height:1.6; font-size:.94rem; margin:0; }
+  .gift-box { text-align:center; padding:32px 16px; }
+  .gift { font-size:6rem; line-height:1.2; cursor:pointer; display:inline-block; transition:transform .3s; filter:drop-shadow(0 10px 20px #ff69b455); }
+  .gift:hover { transform:rotate(-8deg) scale(1.08); }
+  .reveal { display:none; margin:22px auto 0; max-width:620px; animation:appear .6s ease both; }
+  .reveal.show { display:block; }
+  @keyframes appear { from{opacity:0;transform:translateY(14px) scale(.97)} to{opacity:1;transform:none} }
+  .reveal h3 { color:var(--gold); font-size:1.6rem; }
+  .reveal p { color:#eee7fb; line-height:1.8; }
+  footer { text-align:center; padding:35px 0 55px; color:#a99fc9; font-size:.9rem; }
+  .heart { color:#ff70ae; }
+  .floaty { position:fixed; bottom:-70px; z-index:0; font-size:2rem; opacity:.18; pointer-events:none; animation:floatup 15s linear infinite; }
+  @keyframes floatup { to { transform:translateY(-120vh) rotate(20deg); opacity:0; } }
+  @media(max-width:650px){ .cards{grid-template-columns:1fr} header{min-height:90vh} .card{padding:22px} }
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+
+  /* Name entry + checking screens */
+  .name-gate, .checking-screen {
+    position:fixed; inset:0; z-index:9999; display:grid; place-items:center;
+    padding:22px; background:
+      radial-gradient(circle at 20% 20%, #4d2075 0, transparent 35%),
+      radial-gradient(circle at 80% 75%, #6b1f54 0, transparent 35%),
+      linear-gradient(145deg,#08081c,#171038 55%,#260d36);
+  }
+  .name-gate { opacity:1; visibility:visible; transition:opacity .45s, visibility .45s; }
+  .name-gate.hide { opacity:0; visibility:hidden; pointer-events:none; }
+  .name-card, .checking-card {
+    width:min(100%,500px); text-align:center; padding:38px 28px;
+    border:1px solid #ffffff24; border-radius:30px;
+    background:linear-gradient(135deg,#ffffff14,#ffffff07);
+    box-shadow:0 25px 90px #0008; backdrop-filter:blur(18px);
+  }
+  .gate-icon { font-size:4.5rem; animation:bob 2.5s ease-in-out infinite; }
+  .name-card h2, .checking-card h2 { margin:15px 0 9px; font-size:clamp(1.8rem,6vw,2.5rem); }
+  .name-card p, .checking-card p { color:#cfc7e5; line-height:1.6; margin:0 0 22px; }
+  #codeForm { display:flex; flex-direction:column; gap:12px; }
+  #codeInput {
+    width:100%; padding:16px 18px; border-radius:15px; border:1px solid #ffffff24;
+    background:#09091e99; color:#fff; outline:none; font-size:1rem; text-align:center;
+  }
+  #codeInput::placeholder { color:#8f87a8; }
+  #codeInput:focus { border-color:#ff8fc5; box-shadow:0 0 0 4px #ff8fc51c; }
+  .checking-screen { display:none; opacity:0; }
+  .checking-screen.show { display:grid; animation:screenIn .35s ease forwards; }
+  @keyframes screenIn { to { opacity:1; } }
+  .checking-icon { font-size:2.6rem; margin-top:-63px; margin-bottom:12px; }
+  .loader-ring {
+    width:86px; height:86px; margin:0 auto 28px; border-radius:50%;
+    border:7px solid #ffffff18; border-top-color:#ff75b6; border-right-color:#a78bff;
+    animation:spin .8s linear infinite; filter:drop-shadow(0 0 15px #ff5ca866); position:relative; top:-27px;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .progress-track { height:6px; border-radius:99px; background:#ffffff12; overflow:hidden; margin-top:20px; }
+  .progress-bar {
+    height:100%; width:0; border-radius:inherit;
+    background:linear-gradient(90deg,#ff6fac,#9b7bff);
+    animation:progress 7s linear forwards;
+  }
+  @keyframes progress { to { width:100%; } }
+
+  .gift-page {
+    position:fixed; inset:0; z-index:30; display:none; overflow-y:auto;
+    background:
+      radial-gradient(circle at 20% 20%, #ff4fa31c, transparent 32%),
+      radial-gradient(circle at 80% 70%, #8b5cf61c, transparent 34%),
+      linear-gradient(145deg,#090719,#160d2d 55%,#0a0718);
+    opacity:0;
+  }
+  .gift-page.show { display:block; opacity:0; animation:giftPageIn .5s ease forwards; }
+  @keyframes giftPageIn { to { opacity:1; } }
+  .gift-page-inner { min-height:100%; display:grid; place-items:center; padding:70px 20px; }
+  .gift-page-card { width:min(760px,100%); text-align:center; }
+  .gift-page-card .big-gift { font-size:7rem; animation:floatGift 2.5s ease-in-out infinite; }
+  @keyframes floatGift { 50% { transform:translateY(-12px) rotate(2deg); } }
+  .gift-page-card h2 { font-size:clamp(2.2rem,6vw,4.4rem); margin:12px 0 10px; }
+  .gift-page-card h2 span { color:#ff8fc5; }
+  .gift-page-card p { color:#cfc5df; font-size:1.08rem; line-height:1.7; }
+  .back-btn { margin-top:22px; }
+
+
+  .click-gift {
+    font-size:6.5rem; cursor:pointer; display:inline-block; margin:22px 0 8px;
+    filter:drop-shadow(0 15px 25px #0006);
+    animation:floatGift 2.2s ease-in-out infinite;
+    transition:transform .25s ease, filter .25s ease;
+  }
+  .click-gift:hover { transform:scale(1.12) rotate(-3deg); filter:drop-shadow(0 18px 32px #ff73b766); }
+  .click-gift-label { color:#ffd3e8 !important; font-weight:800; margin-top:0 !important; }
+  .message-page-card { max-width:760px; }
+  .message-page-card .letter { text-align:left; margin-top:25px; }
+</style>
+</head>
+<body>
+<div id="codeGate" class="name-gate">
+  <div class="name-card">
+    <div class="gate-icon">🎁</div>
+    <h2>Enter Secret Code</h2>
+    <p>Enter the secret code to unlock this surprise ✨</p>
+    <form id="codeForm">
+      <input id="codeInput" type="text" placeholder="Enter secret code..." autocomplete="off" maxlength="40" required>
+      <button class="btn" type="submit">Unlock →</button>
+      <p id="codeError" style="display:none;color:#ff8fa8;font-weight:700;margin:2px 0 0;">❌ Wrong secret code. Try again.</p>
+    </form>
+  </div>
+</div>
+
+<div id="checkingScreen" class="checking-screen" aria-hidden="true">
+  <div class="checking-card">
+    <div class="loader-ring"></div>
+    <div class="checking-icon">🔐</div>
+    <h2>Checking your code...</h2>
+    <p id="checkingText">Please wait a moment</p>
+    <div class="progress-track"><div class="progress-bar"></div></div>
+  </div>
+</div>
+
+<div id="giftPage" class="gift-page" aria-hidden="true">
+  <div class="gift-page-inner">
+    <div class="gift-page-card">
+      <div class="eyebrow">✨ ONE MORE SURPRISE ✨</div>
+      <h2>Your Gift Is Waiting, <span>Rehan!</span></h2>
+      <p>There’s something special inside this box... 👀</p>
+      <div class="click-gift" role="button" tabindex="0" aria-label="Click the gift box" onclick="openMessagePage()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMessagePage()}">🎁</div>
+      <p class="click-gift-label">👆 Click Me!</p>
+      <button class="btn back-btn" onclick="closeGiftPage()">← Back</button>
+    </div>
+  </div>
+</div>
+
+<div id="messagePage" class="gift-page" aria-hidden="true">
+  <div class="gift-page-inner">
+    <div class="gift-page-card message-page-card">
+      <div class="big-gift">💌</div>
+      <div class="eyebrow">💜 A SPECIAL LETTER 💜</div>
+      <h2>For My Best Friend, <span>Rehan!</span></h2>
+      <div class="glass letter">
+        <p>Dear <strong>Rehan</strong>,</p>
+        <p>Happy 14th Birthday, my brother, my partner in crime, my best friend! 🎉🥳</p>
+        <p>Today I sat down to write this letter and I honestly didn't know where to start, because there are so many things I want to say. So let me start with the most important one: <strong>thank you</strong>. Thank you for being the kind of friend who makes every ordinary day feel a little bit more fun. Whether we're laughing at some silly joke, playing games, talking about nothing for hours, or just sitting together doing absolutely nothing, being with you always feels easy and real. 💜</p>
+        <p>A true friend is someone who stays the same whether things are going great or not so great, and you are exactly that. You've been there with a smile, a joke, or just a few words when I needed them most. You never make me feel like I have to pretend to be someone else, and honestly, that is a rare thing. I'm really lucky to have you.</p>
+        <p>You are funny, smart, and one of a kind, Rehan. You've got a big heart, and the way you care about the people around you says a lot about the person you are. Don't ever let anyone make you feel small, because you have so much talent and so much potential inside you. 🌟</p>
+        <p>Now you're 14. A new level, a new chapter, and the start of some of the best years of your life. I hope this year brings you everything you've been dreaming about: success in your studies, new skills, new adventures, and moments that make you smile just thinking about them later. And whenever things get tough, remember that you're stronger than you think, and that you always have a friend who has your back. 🚀</p>
+        <p>I also want to promise you something. As we grow up, school will change, life will get busier, and we'll both change in many ways, but I promise to stay the friend you can count on. Let's keep making crazy memories, keep supporting each other's dreams, and keep laughing at the same silly things, even when we're old. 😄</p>
+        <p>So today, forget every worry. Eat a lot of cake 🎂, enjoy every single moment, and celebrate yourself, because you truly deserve it. May Allah bless you with a long, healthy, happy, and successful life, and keep our friendship strong forever. 🤲</p>
+        <p>Once again, <strong>Happy Birthday, Rehan!</strong> 🎈 Have the most epic day ever!</p>
+        <p class="signature">Your best friend, always and forever 💜<br>11 December 2026</p>
+      </div>
+      <button class="btn back-btn" onclick="closeMessagePage()">← Back to Gift</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">✨ A little surprise just for you ✨</div>
+      <div class="hero-cake" aria-hidden="true">🎂</div>
+      <h1>MY BEST FRIEND <span>REHAN</span></h1>
+      <p class="subtitle">Today is all about you, bro! 🥳<br>A whole new level unlocked — <strong>Level 14</strong>.</p>
+      <p style="font-size:1.05rem;color:#ffd76a;font-weight:700">📅 11 December 2026</p>
+      <button class="btn" onclick="openGiftPage()">Open Your Gift 🎁</button>
+      <div class="hint">Made with friendship, good vibes & a little bit of magic 💜</div>
+    </div>
+  </header>
+
+  <section id="gift">
+    <h2 class="section-title">One Last Surprise 💌</h2>
+    <p class="section-sub">There’s something special waiting for you at the end.</p>
+    <div class="glass gift-box">
+      <div class="gift" style="cursor:default">💌</div>
+      <p style="color:#e7def7;margin:12px 0 20px">A little message from your best friend</p>
+      <button class="btn" onclick="openMessagePage()">A Special Letter for My Best Friend 💜</button>
+    </div>
+  </section>
+  <footer>
+    Made for Rehan with <span class="heart">♥</span> and lots of friendship.<br>
+    <span style="display:inline-block;margin-top:10px">🎂 Happy 14th Birthday · 11.12.2026 🎂</span>
+  </footer>
+</div>
+<script>
+  // First screen: ask for the secret code, then show a 7-second checking screen.
+  const codeGate = document.getElementById('codeGate');
+  const checkingScreen = document.getElementById('checkingScreen');
+  const codeForm = document.getElementById('codeForm');
+  const codeInput = document.getElementById('codeInput');
+  const checkingText = document.getElementById('checkingText');
+
+  window.addEventListener('load', () => codeInput.focus());
+
+  codeForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const secretCode = codeInput.value.trim();
+    const codeError = document.getElementById('codeError');
+
+    if (secretCode !== 'Rehan') {
+      codeError.style.display = 'block';
+      codeInput.value = '';
+      codeInput.focus();
+      return;
+    }
+
+    codeError.style.display = 'none';
+    codeGate.classList.add('hide');
+    checkingScreen.classList.add('show');
+    checkingScreen.setAttribute('aria-hidden', 'false');
+
+    const messages = [
+      'Verifying your name...',
+      'Checking your code...',
+      'Almost there...',
+      'Preparing your surprise...'
+    ];
+    let i = 0;
+    const messageTimer = setInterval(() => {
+      checkingText.textContent = messages[Math.min(++i, messages.length - 1)];
+    }, 1750);
+
+    // For now, after 7 seconds the checking screen opens the existing website.
+    setTimeout(() => {
+      clearInterval(messageTimer);
+      checkingScreen.classList.remove('show');
+      checkingScreen.style.display = 'none';
+      checkingScreen.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }, 7000);
+
+    document.body.style.overflow = 'hidden';
+  });
+
+  const giftPage = document.getElementById('giftPage');
+  const messagePage = document.getElementById('messagePage');
+
+
+  function openMessagePage() {
+    messagePage.style.display = '';
+    messagePage.scrollTop = 0;
+    messagePage.classList.add('show');
+    messagePage.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMessagePage() {
+    messagePage.classList.remove('show');
+    messagePage.setAttribute('aria-hidden', 'true');
+    // If the gift page is still open underneath, keep scroll locked; otherwise unlock
+    document.body.style.overflow = giftPage.classList.contains('show') ? 'hidden' : '';
+  }
+
+  function openGiftPage() {
+    giftPage.style.display = '';
+    giftPage.classList.add('show');
+    giftPage.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGiftPage() {
+    giftPage.classList.remove('show');
+    giftPage.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Twinkling background stars
+  const canvas = document.getElementById('stars'), ctx = canvas.getContext('2d');
+  let stars = [];
+  function resizeStars(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = innerWidth*dpr; canvas.height = innerHeight*dpr;
+    canvas.style.width = innerWidth+'px'; canvas.style.height = innerHeight+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    stars = Array.from({length: Math.min(140, Math.floor(innerWidth/8))},()=>({
+      x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+.3,a:Math.random()*.65+.15,s:Math.random()*.012+.003
+    }));
+  }
+  function drawStars(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(const s of stars){ s.a += (Math.random()-.5)*s.s; s.a=Math.max(.12,Math.min(.9,s.a));
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${s.a})`;ctx.fill(); }
+    requestAnimationFrame(drawStars);
+  }
+  resizeStars(); drawStars(); addEventListener('resize',resizeStars);
+
+  let opened=false;
+  function openGift(){
+    document.getElementById('reveal').classList.add('show');
+    if(!opened){opened=true;document.getElementById('reveal').scrollIntoView({behavior:'smooth',block:'center'});}
+  }
+  // Small floating birthday emojis
+  const emojis=['💜','🎈','✨','⭐','💖'];
+  for(let i=0;i<9;i++){
+    const e=document.createElement('div');e.className='floaty';e.textContent=emojis[i%emojis.length];
+    e.style.left=(Math.random()*100)+'vw';e.style.animationDelay=(Math.random()*14)+'s';
+    e.style.animationDuration=(12+Math.random()*10)+'s';document.body.appendChild(e);
+  }
+</script>
+</body>
+</html>
